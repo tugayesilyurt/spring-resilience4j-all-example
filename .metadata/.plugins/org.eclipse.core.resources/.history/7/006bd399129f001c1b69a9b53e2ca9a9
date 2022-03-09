@@ -1,0 +1,42 @@
+package com.customer.service.controller;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.customer.service.dto.CardInfo;
+
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequestMapping("/api/v1")
+@RequiredArgsConstructor
+public class RetryController {
+	
+	AtomicInteger countCall = new AtomicInteger();
+
+	@GetMapping(value = "/card-info/retry")
+	@Retry(name = "cardServiceRetry", fallbackMethod = "getRetryFallback")
+	public ResponseEntity<?> getCustomerCardInfo() throws InterruptedException {
+		
+		System.out.println("/card-info/retry count : " + countCall.incrementAndGet());
+
+		return new ResponseEntity<CardInfo>(
+				CardInfo.builder().cardId(1l).customerId(1l).cardName("Retry pattern Card!").build(),
+				HttpStatus.OK);
+	}
+	
+	public ResponseEntity<?> getRetryFallback(Exception e) {
+
+		return new ResponseEntity<CardInfo>(
+				CardInfo.builder().cardId(1l).customerId(1l).cardName("Retry pattern fallback Card!").build(),
+				HttpStatus.OK);
+
+	}
+
+}

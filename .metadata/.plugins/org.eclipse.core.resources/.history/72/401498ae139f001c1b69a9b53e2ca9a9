@@ -1,0 +1,73 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: CUSTOMER-SERVICE
+        
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    registerWithEureka: true
+    serviceUrl:
+        defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761}/eureka
+    healthCheck:
+      enabled: true
+      
+resilience4j.bulkhead:
+  instances:
+    cardServiceBulkhead:
+      maxWaitDuration: 1000ms
+      maxConcurrentCalls: 5
+      
+resilience4j.thread-pool-bulkhead:
+  instances:
+    cardServiceBulkhead:
+      maxThreadPoolSize: 1
+      coreThreadPoolSize: 1
+      queueCapacity: 1
+      
+resilience4j.circuitbreaker:
+    instances:
+      cardServiceCircuitBreaker:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        waitDurationInOpenState: 5s
+        slidingWindowType: COUNT_BASED
+        
+resilience4j.ratelimiter:
+  instances:
+    cardServiceRatelimiter:
+      limitForPeriod: 1
+      limitRefreshPeriod: 5s
+      timeoutDuration: 0s
+      
+resilience4j.retry:
+  instances:
+    cardServiceRetry:
+      max-attempts: 3
+      wait-duration: 2s
+      
+resilience4j.timelimiter:
+  instances:
+    ratingService:
+      timeoutDuration: 3s
+      cancelRunningFuture: true
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always

@@ -1,0 +1,36 @@
+package com.card.service.controller;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.card.service.dto.CardInfo;
+import com.card.service.service.CardService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@RestController
+@RequestMapping("/api/v1/card")
+@RequiredArgsConstructor
+@Slf4j
+public class CardController {
+
+	private final CardService cardService;
+	AtomicInteger data = new AtomicInteger();
+
+	@GetMapping(value = "/bulkhead/{customerId}")
+	public ResponseEntity<?> getCardInfoByCustomerId(@PathVariable("customerId") long customerId) throws InterruptedException {
+		
+		log.info("Bulkhead Card Info Call "+ Thread.currentThread().getName());
+		log.info("Atomic " + data.getAndIncrement());
+		Thread.sleep(2000);
+		
+		return new ResponseEntity<CardInfo>(cardService.getCardInfo(customerId), HttpStatus.OK);
+	}
+}

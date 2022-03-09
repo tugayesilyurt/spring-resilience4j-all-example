@@ -1,0 +1,10 @@
+package com.card.service.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class CardService {
+	
+	 private Map<Integer, CardInfo> map;
+
+}

@@ -1,0 +1,12 @@
+package com.customer.service.dto;
+
+import lombok.AllArgsConstructor;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CardInfo {
+
+}

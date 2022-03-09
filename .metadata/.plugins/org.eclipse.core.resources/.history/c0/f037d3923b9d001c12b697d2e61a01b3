@@ -1,0 +1,6 @@
+package com.card.service.controller;
+
+@RestController
+public class CardController {
+
+}

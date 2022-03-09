@@ -1,0 +1,15 @@
+package com.customer.service.service;
+
+import org.springframework.stereotype.Service;
+
+import com.customer.service.dto.CardInfo;
+
+@Service
+public class CustomerService {
+
+
+	public CardInfo getCardInfo(long customerId) {
+		
+	}
+
+}

@@ -1,0 +1,31 @@
+package com.customer.service.controller;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.customer.service.dto.CardInfo;
+import com.customer.service.service.BulkheadService;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequestMapping("/api/v1")
+@RequiredArgsConstructor
+public class RatelimiterController {
+
+	private final Long customerId = 1905l;
+
+	@GetMapping(value = "/card-info/ratelimiter")
+	@RateLimiter(name="stockService", fallbackMethod = "getFallbackStocks")
+	public ResponseEntity<?> getCustomerCardInfo() throws InterruptedException {
+		
+
+		return new ResponseEntity<CardInfo>(
+				CardInfo.builder().cardId(1l).customerId(1l).cardName("CircuitBreaker Default Card!").build(),
+				HttpStatus.OK);
+	}
+
+}

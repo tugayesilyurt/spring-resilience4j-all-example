@@ -1,0 +1,17 @@
+package com.customer.service.service;
+
+@Service
+public class CustomerService {
+	
+
+    @Bulkhead(name = "ratingService", fallbackMethod = "getDefault")
+    public ProductRatingDto getProductRatingDto(int productId){
+        return this.restTemplate.getForEntity(this.ratingService + productId, ProductRatingDto.class)
+                .getBody();
+    }
+
+    public ProductRatingDto getDefault(int productId, Throwable throwable){
+        return ProductRatingDto.of(0, Collections.emptyList());
+    }
+
+}

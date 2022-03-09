@@ -1,0 +1,33 @@
+package com.customer.service.service;
+
+import org.springframework.stereotype.Service;
+
+import com.customer.service.dto.CardInfo;
+import com.customer.service.feign.client.CardServiceClient;
+
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@AllArgsConstructor
+@Slf4j
+public class CustomerService {
+
+	private final CardServiceClient cardServiceClient;
+	
+	@Bulkhead(name = "CARD-SERVICE", fallbackMethod = "bulkHeadFallback")
+	public CardInfo getCardInfo(long customerId) {
+		
+		CardInfo responseCardInfo = cardServiceClient.getCardInfoByCustomerId(customerId);
+
+		return responseCardInfo;
+		
+	}
+	
+    public CardInfo bulkHeadFallback(long customerId, Throwable t) {
+        log.error("Inside bulkHeadFallback, cause - {}", t.toString());
+        return CardInfo.builder().cardId(1l).customerId(1l).cardName("Bulkhead Default Card!").build();
+    }
+
+}

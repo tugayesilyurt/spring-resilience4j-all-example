@@ -1,0 +1,35 @@
+package com.customer.service.service;
+
+import org.springframework.stereotype.Service;
+
+import com.customer.service.dto.CardInfo;
+import com.customer.service.feign.client.CardServiceClient;
+
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@AllArgsConstructor
+@Slf4j
+public class CircuitBreakerService {
+
+	private final CardServiceClient cardServiceClient;
+	
+	@CircuitBreaker(name = "cardServiceCircuitBreaker", fallbackMethod = "circuitBreakerFallback")
+	public CardInfo getCardInfo(long customerId,String threadName) {
+		
+		CardInfo responseCardInfo = cardServiceClient.getCardInfoByCustomerIdCircuit(customerId);
+
+		return responseCardInfo;
+		
+	}
+	
+    public CardInfo circuitBreakerFallback(long customerId,String threadName, Throwable t) {
+        log.error("Inside circuitBreakerFallback, cause - {}", t.toString());
+        log.error("Inside circuitBreakerFallback, Thread Name - {}", threadName);
+        return CardInfo.builder().cardId(1l).customerId(1l).cardName("CircuitBreaker Default Card!").build();
+    }
+
+}

@@ -1,0 +1,17 @@
+package com.customer.service.service;
+
+import org.springframework.stereotype.Service;
+
+import com.customer.service.dto.CardInfo;
+import com.customer.service.feign.client.CardServiceClient;
+
+@Service
+public class CustomerService {
+
+	private final CardServiceClient cardServiceClient;
+	
+	public CardInfo getCardInfo(long customerId) {
+		
+	}
+
+}

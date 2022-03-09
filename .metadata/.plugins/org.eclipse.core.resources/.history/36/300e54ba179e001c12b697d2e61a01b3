@@ -1,0 +1,62 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: CUSTOMER-SERVICE
+
+management:
+  health:
+    circuitbreakers:      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:    health:      show-details: always
+        
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    registerWithEureka: true
+    serviceUrl:
+        defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761}/eureka
+    healthCheck:
+      enabled: true
+      
+resilience4j.bulkhead:
+  instances:
+    cardServiceBulkhead:
+      maxWaitDuration: 1000ms
+      maxConcurrentCalls: 5
+      
+resilience4j.thread-pool-bulkhead:
+  instances:
+    cardServiceBulkhead:
+      maxThreadPoolSize: 1
+      coreThreadPoolSize: 1
+      queueCapacity: 1
+      
+      
+resilience4j:
+  circuitbreaker:
+    configs:
+      shared:
+        automatic-transition-from-open-to-half-open-enabled: 'true'
+        sliding-window-size: '5'
+        sliding-window-type: count_based
+        slow-call-duration-threshold: 2s
+        slow-call-rate-threshold: '40'
+        writable-stack-trace-enabled: 'true'
+        failure-rate-threshold: '40'
+    instances:
+      example:
+        base-config: shared
+  timelimiter:
+    configs:
+      shared:
+        timeout-duration: 2s
+        cancel-running-future: 'true'
+    instances:
+      example:
+        base-config: shared

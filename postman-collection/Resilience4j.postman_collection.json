@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "110601b5-e00d-4905-acf9-c71daeaee4df",
+		"name": "Resilience4j",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "circuit-breaker",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/customer/api/v1/card-info/circuit-breaker",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"customer",
+						"api",
+						"v1",
+						"card-info",
+						"circuit-breaker"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bulkhead",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/customer/api/v1/card-info/bulkhead",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"customer",
+						"api",
+						"v1",
+						"card-info",
+						"bulkhead"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ratelimiter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/customer/api/v1/card-info/ratelimiter",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"customer",
+						"api",
+						"v1",
+						"card-info",
+						"ratelimiter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retry",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/customer/api/v1/card-info/retry",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"customer",
+						"api",
+						"v1",
+						"card-info",
+						"retry"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "timeout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/customer/api/v1/card-info/timeout",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"customer",
+						"api",
+						"v1",
+						"card-info",
+						"timeout"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

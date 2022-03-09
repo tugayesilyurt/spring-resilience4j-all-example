@@ -1,0 +1,25 @@
+package com.customer.service.service;
+
+import org.springframework.stereotype.Service;
+
+import com.customer.service.dto.CardInfo;
+import com.customer.service.feign.client.CardServiceClient;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
+public class CustomerService {
+
+	private final CardServiceClient cardServiceClient;
+	
+	 @Bulkhead(name = "bulkheadService1", fallbackMethod = "bulkHeadFallback")
+	public CardInfo getCardInfo(long customerId) {
+		
+		CardInfo responseCardInfo = cardServiceClient.getCardInfoByCustomerId(customerId);
+
+		return responseCardInfo;
+		
+	}
+
+}

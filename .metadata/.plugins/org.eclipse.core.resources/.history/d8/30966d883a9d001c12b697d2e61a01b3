@@ -1,0 +1,6 @@
+package com.customer.service.service;
+
+@Service
+public class CustomerService {
+
+}

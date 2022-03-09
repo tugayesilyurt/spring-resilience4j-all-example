@@ -1,0 +1,5 @@
+package com.card.service.service;
+
+public class CardService {
+
+}

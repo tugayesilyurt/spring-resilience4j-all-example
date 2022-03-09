@@ -1,0 +1,20 @@
+package com.card.service.service;
+
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.stereotype.Service;
+
+import com.card.service.dto.CardInfo;
+
+@Service
+public class CardService {
+
+	private Map<Integer, CardInfo> map;
+
+	@PostConstruct
+	private void init() {
+	}
+
+}
